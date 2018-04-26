@@ -1,25 +1,19 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Memory - Game</title>
-</head>
-<body>
-    <form action="{{ url_for('game') }}" method="post">
-        <label>X: </label>
+{% extends "layout.html" %}
+{% block content %}
+<form action="{{ url_for('game') }}" method="post">
+    <label>X: </label>
 
-        <select name="X">
-            {% for i in range(2, 9, 2) %}
-                <option value="{{ i }}">{{i}} </option>
-            {% endfor %}
-        </select><br>
-        <label>Y: </label>
-        <select name="Y">
-            {% for i in range(2, 9, 2) %}
-                <option value="{{ i }}">{{i}} </option>
-            {% endfor %}
-        </select><br>
-        <input type="submit" name="go_game" value="GO">
-    </form>
-</body>
-</html>
+    <select name="X">
+        {% for i in range(2, 9, 2) %}
+        <option value="{{ i }}">{{i}}</option>
+        {% endfor %}
+    </select><br>
+    <label>Y: </label>
+    <select name="Y">
+        {% for i in range(2, 9, 2) %}
+        <option value="{{ i }}">{{i}}</option>
+        {% endfor %}
+    </select><br>
+    <input type="submit" name="go_game" value="GO">
+</form>
+{% endblock %}

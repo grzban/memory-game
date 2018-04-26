@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Memory - Game</title>
+    <link href="{{ url_for('static', filename='style.css') }}" rel="stylesheet" type="text/css">
+</head>
+<body>
+<div class="main_page">
+    <header>
+        <p>Memory - Game</p>
+    </header>
+    <article>
+        {% block content %}
+        {% endblock %}
+    </article>
+    <footer>
+        &copy2018 GB
+    </footer>
+</div>
+</body>
+</html>

@@ -1,0 +1,24 @@
+footer{
+    margin: 10px;
+    padding: 10px;
+    text-align: center;
+}
+
+header{
+    margin: 10px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    padding-left: 50px;
+    font-size: 40px;
+    font-family: 'Consolas', 'Deja Vu Sans Mono', 'Bitstream Vera Sans Mono', monospace;
+    font-weight: bold;
+    background: black;
+    color: white;
+}
+
+article{
+    border-bottom: 1px solid black;
+    border-top: 1px solid black;
+    margin: 10px;
+    padding: 10px;
+}

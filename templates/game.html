@@ -1,39 +1,17 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Game</title>
-    <script type="text/javascript" src="../static/app.js"></script>
-    <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
-    <script defer src="https://use.fontawesome.com/releases/v5.0.10/js/all.js" integrity="sha384-slN8GvtUJGnv6ca26v8EzVaR9DC58QEwsIk9q1QXdCU8Yu8ck/tL/5szYlBbqmS+" crossorigin="anonymous"></script>
-</head>
-<body>
-    <div>
-        <header>
-            <div>
-                Memory Game
-            </div>
-        </header>
-        <article>
-            {% set X = request.form.get('X')|int %}
-            {% set Y =  request.form.get('Y')|int %}
-            <table border="1">
-                {% for i in range(0, Y) %}
-                    <tr>
-                        {% for j in range(0, X) %}
-                            <td>{{ j }}</td>
-                        {% endfor %}
-                    </tr>
-                {% endfor %}
-            </table>
-        </article>
-        <footer>
-            <div>
-                <a href="{{ url_for('index') }}">
-                    GO HOME
-                </a>
-            </div>
-        </footer>
-    </div>
-</body>
-</html>
+{% extends "layout.html" %}
+{% block content %}
+{% set X = request.form.get('X')|int %}
+{% set Y =  request.form.get('Y')|int %}
+<table border="1">
+    {% for i in range(0, Y) %}
+    <tr>
+        {% for j in range(0, X) %}
+        <td>{{ j }}</td>
+        {% endfor %}
+    </tr>
+    {% endfor %}
+</table>
+<a href="{{ url_for('index') }}">
+    GO HOME
+</a>
+{% endblock %}
