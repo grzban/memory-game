@@ -10,10 +10,22 @@
 <body>
     <div>
         <header>
-
+            <div>
+                Memory Game
+            </div>
         </header>
         <article>
-
+            {% set X = request.form.get('X')|int %}
+            {% set Y =  request.form.get('Y')|int %}
+            <table border="1">
+                {% for i in range(0, Y) %}
+                    <tr>
+                        {% for j in range(0, X) %}
+                            <td>{{ j }}</td>
+                        {% endfor %}
+                    </tr>
+                {% endfor %}
+            </table>
         </article>
         <footer>
             <div>
