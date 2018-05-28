@@ -1,19 +1,24 @@
 {% extends "layout.html" %}
 {% block content %}
-<form action="{{ url_for('game') }}" method="post">
-    <label>X: </label>
+<div class="game_board">
+</div>
+<div class="get_game_dimention">
+    <form name="memory" action="{{ url_for('index') }}" method="post">
+        <label>X: </label>
+        <select name="X">
+            {% for i in range(2, 9, 2) %}
+            <option  id="X" value="{{ i }}">{{i}}</option>
+            {% endfor %}
+        </select><br>
+        <label>Y: </label>
+        <select name="Y" >
+            {% for i in range(2, 9, 2) %}
+            <option id="Y" value="{{ i }}">{{i}}</option>
+            {% endfor %}
+        </select><br>
+        <button class="button game-start">PLAY</button>
+        <!--<input type="submit" name="play_game" value="PLAY">-->
+    </form>
+</div>
 
-    <select name="X">
-        {% for i in range(2, 9, 2) %}
-        <option value="{{ i }}">{{i}}</option>
-        {% endfor %}
-    </select><br>
-    <label>Y: </label>
-    <select name="Y">
-        {% for i in range(2, 9, 2) %}
-        <option value="{{ i }}">{{i}}</option>
-        {% endfor %}
-    </select><br>
-    <input type="submit" name="go_game" value="GO">
-</form>
 {% endblock %}

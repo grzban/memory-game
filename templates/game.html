@@ -2,16 +2,23 @@
 {% block content %}
 {% set X = request.form.get('X')|int %}
 {% set Y =  request.form.get('Y')|int %}
-<table border="1">
-    {% for i in range(0, Y) %}
-    <tr>
-        {% for j in range(0, X) %}
-        <td>{{ j }}</td>
+
+<div class="game_board">
+    <table>
+        {% for i in range(0, Y) %}
+        <tr>
+            {% for j in range(0, X) %}
+            <td onclick="getElementIdName()" class="unactive" id="card_{{j}}{{i}}" >
+                <i class="fas fa-sync-alt"></i>
+            </td>
+            {% endfor %}
+        </tr>
         {% endfor %}
-    </tr>
-    {% endfor %}
-</table>
-<a href="{{ url_for('index') }}">
-    GO HOME
-</a>
+    </table>
+</div>
+<div class="bottom_menu">
+    <a href="{{ url_for('index') }}">
+        GO HOME
+    </a>
+</div>
 {% endblock %}

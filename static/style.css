@@ -6,8 +6,8 @@ footer{
 
 header{
     margin: 10px;
-    padding-top: 10px;
-    padding-bottom: 10px;
+    padding-top: 5px;
+    padding-bottom: 5px;
     padding-left: 50px;
     font-size: 40px;
     font-family: 'Consolas', 'Deja Vu Sans Mono', 'Bitstream Vera Sans Mono', monospace;
@@ -15,10 +15,80 @@ header{
     background: black;
     color: white;
 }
+header a:link {
+    text-decoration: inherit;
+}
+
+header a {
+    color: white;
+}
+
+header a:hover {
+    color: red;
+}
 
 article{
     border-bottom: 1px solid black;
     border-top: 1px solid black;
     margin: 10px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+.game_board {
+    text-align: center;
+    margin: 0 auto;
+    display: table;
+}
+
+td{
+    border: 1px solid black;
+    margin: 0px auto;
+    padding: 1px;
+    width: 150px;
+    height: 150px;
+}
+
+td:hover{
+    background: black;
+    color: white;
+}
+
+.bottom_menu{
+    margin-top: 10px;
+    margin-bottom: 10px;
+    padding-top: 20px;
+    border-top: 1px solid black;
+}
+
+.bottom_menu a{
+    text-decoration: none;
+    background: black;
+    color: white;
     padding: 10px;
+    margin-top: 20px;
+}
+
+a:hover{
+    background: lightgrey;
+    color: black;
+}
+
+td i{
+    font-size: 4em;
+    color:black;
+}
+
+td:hover i{
+    color: white;
+}
+
+unactive{
+    width: 80px;
+    height: 80px;
+}
+
+td #card_^{
+    color: royalblue;
+    background: green;
 }
