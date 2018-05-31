@@ -2,20 +2,18 @@
 {% block content %}
 {% set X = request.form.get('X')|int %}
 {% set Y =  request.form.get('Y')|int %}
+<script type="text/javascript">
+    window.onload = function loadTable() {
+        setColumns( '{{X}}' );
+        setRows( '{{Y}}' )
+        createGameView(generateGameBoard());
+    }
+</script>
 
-<div class="game_board">
-    <table>
-        {% for i in range(0, Y) %}
-        <tr>
-            {% for j in range(0, X) %}
-            <td onclick="getElementIdName()" class="unactive" id="card_{{j}}{{i}}" >
-                <i class="fas fa-sync-alt"></i>
-            </td>
-            {% endfor %}
-        </tr>
-        {% endfor %}
-    </table>
+<div id="game_board">
+    <table id="game_table"></table>
 </div>
+
 <div class="bottom_menu">
     <a href="{{ url_for('index') }}">
         GO HOME
