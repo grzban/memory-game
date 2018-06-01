@@ -39,6 +39,7 @@ article{
     text-align: center;
     margin: 0 auto;
     display: table;
+    padding: 1em;
 }
 
 td{
@@ -61,6 +62,8 @@ td:hover{
     margin-bottom: 10px;
     padding-top: 20px;
     border-top: 1px solid black;
+    display: block;
+    text-align: center;
 }
 
 .bottom_menu a{
@@ -85,12 +88,13 @@ td:hover i{
     color: white;
 }
 
-unactive{
-    width: 80px;
-    height: 80px;
+#scores{
+    display: block;
+    text-align: center;
+    border-top: 1px solid black;
+    padding: 0.5em;
 }
 
-td #card_^{
-    color: royalblue;
-    background: green;
+.resolved {
+    background: #f6da17;
 }

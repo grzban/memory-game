@@ -52,8 +52,13 @@ function getRandomInt(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
-var rows = 9;
-var columns = 5;
+var rows = 4;
+var columns = 4;
+var moveCounts = 0;
+
+function incrementMoveCounts(){
+    return this.moveCounts++;
+}
 
 function setColumns(columns) {
     this.columns = columns;
@@ -77,6 +82,7 @@ function generateGamePictures() {
             continue;
         }
         let picture = {
+            id: i,
             image: pictures[index],
             usedCount: 2
         }
@@ -87,13 +93,26 @@ function generateGamePictures() {
     return gamePictures;
 }
 
-function generateBoardIds() {
+function generateBoard() {
+    moveCounts = 0;
     let board = [];
+    let pictures = generateGamePictures();
+    let countOfPictures = pictures.length;
     for (let i = 1; i <= rows; i++){
         for (let j = 1; j <= columns; j++){
+            let pictureIndex;
+            let cuntOfUsing;
+            while (true) {
+                pictureIndex = getRandomInt(0, countOfPictures - 1);
+                cuntOfUsing = pictures[pictureIndex].usedCount;
+                if (cuntOfUsing != 0) {
+                    break;
+                }
+            }
+            pictures[pictureIndex].usedCount = cuntOfUsing - 1;
             let tile = {
                 id: i + "" + j,
-                revers: pictures["0"],
+                image: pictures[pictureIndex].image,
                 status: "inactive"
             }
             board.push(tile);
@@ -102,26 +121,6 @@ function generateBoardIds() {
     return board;
 }
 
-function generateGameBoard() {
-    let board = generateBoardIds();
-    let countOfTiles = board.length;
-    let pictures = generateGamePictures();
-    let countOfPictures = pictures.length;
-    let i = 0;
-    while ( i < countOfTiles) {
-
-        let pictureIndex = getRandomInt(0, countOfPictures - 1 );
-        let cuntOfUsing = pictures[pictureIndex].usedCount;
-
-        if (cuntOfUsing == 0){
-            continue;
-        }
-        pictures[pictureIndex].usedCount = cuntOfUsing - 1;
-        board[i].avers = pictures[pictureIndex].image;
-        i++;
-    }
-    return board;
-}
 
 function findPositionInBoard(tileId, board) {
     let i = 0
@@ -133,25 +132,40 @@ function findPositionInBoard(tileId, board) {
     }
 }
 
-function changeStatus(index, board, table) {
-    let tile = document.getElementById("tile_" + board[index].id);
-
+function changeStatus(index, board) {
     if(board[index].status == "active"){
         board[index].status = "inactive";
+    } else if(board[index].status == "resolved") {
+
     } else {
         board[index].status = "active";
     }
-    window.setTimeout( function () {
-        board[index].status = "inactive";
-        table.innerHTML = '';
-        window.onload = createGameView(board);
-    }, 2000);
-
     return board;
 }
 
-function createGameView(board) {
+function checkResolve(moves, board) {
+    if (board[moves[0]].image == board[moves[1]].image){
+        board[moves[0]].status = "resolved";
+        board[moves[1]].status = "resolved";
+    }
+    return board;
+}
+let moves = [];
+
+function checkIfFinished(board) {
+    let i = 0;
+    while (i < board.length) {
+        if (board[i].status != "resolved"){
+            return false;
+        }
+        i++;
+    }
+    return true;
+}
+
+function gameView(board) {
     let table = document.querySelector("#game_table");
+    table.innerHTML = '';
     let idNumber = 0;
     for (let i = 0; i < rows; i++) {
         let row = document.createElement('tr');
@@ -159,22 +173,41 @@ function createGameView(board) {
             let column = document.createElement('td');
             column.id = "tile_" + board[idNumber].id;
             let tile = document.createElement("i");
+            let tileStatus = board[idNumber].status;
+            if( tileStatus == "active"){
+                tile.className = board[idNumber].image;
+            } else if (tileStatus == "resolved") {
 
-            if(board[idNumber].status == "inactive"){
-                tile.className = board[idNumber].revers;
             } else {
-                tile.className = board[idNumber].avers;
+                tile.className = pictures["0"];
             }
 
             tile.id = "tile_" + board[idNumber].id;
+
             column.onclick = function(e){
                 e.defaultPrevented = true;
                 let tileId = e.target.id.split("_")[1];
                 let clickedTileIndex = findPositionInBoard(tileId, board);
+                changeStatus(clickedTileIndex, board);
+                moves.push(clickedTileIndex);
+                if (moves.length == 2) {
+                    checkResolve(moves, board);
+                }
 
-                changeStatus(clickedTileIndex, board, table);
-                table.innerHTML = '';
-                window.onload = createGameView(board);
+                if (moves.length == 3) {
+                    changeStatus(moves[0], board);
+                    changeStatus(moves[1], board);
+                    let tmp = moves[2];
+                    moves = [];
+                    moves.push(tmp);
+                    gameView(board);
+                }
+
+                this.moveCounts += incrementMoveCounts();
+                gameView(board);
+                if (checkIfFinished(board)){
+                    finishGame();
+                }
             };
             column.appendChild(tile);
             row.appendChild(column);
@@ -182,4 +215,38 @@ function createGameView(board) {
         }
         table.appendChild(row);
     }
+    showScores(getMoveCounts());
+}
+
+function showScores(moveCounts) {
+    let scores = document.getElementById("scores");
+    scores.innerText = '';
+    let moveCountsDiv = document.createElement("div");
+    let moveCountsTxt = document.createTextNode("Move counts: " + moveCounts);
+    moveCountsDiv.appendChild(moveCountsTxt);
+    scores.appendChild(moveCountsDiv);
+}
+
+function finishGame() {
+    let finishMessage = document.getElementById("finish_message");
+    finishMessage.style.display = "block"
+    let span = document.getElementsByClassName("close")[0];
+    span.onclick = function() {
+        finishMessage.style.display = "none";
+        window.location.href ="/";
+    };
+    let finishMessageDiv = document.getElementById("finish_message_div");
+    let finishMessageP = document.createElement('p');
+    let finishMessageTXT = document.createTextNode("You won in " + getMoveCounts() + " moves!");
+    finishMessageP.appendChild(finishMessageTXT);
+    finishMessageDiv.appendChild(finishMessageP);
+    let tryAgainButton = document.getElementById("try_again");
+    tryAgainButton.onclick = function () {
+        window.location.href ="/";
+    }
+
+}
+
+function getMoveCounts() {
+    return this.moveCounts;
 }
